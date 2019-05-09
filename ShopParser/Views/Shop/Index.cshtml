@@ -1,0 +1,50 @@
+﻿@model IEnumerable<ShopParser.Models.StoreProducts.Product>
+
+@{
+    ViewBag.Title = "Index";
+    ViewBag.FileName = Path.GetFileName("https://m.media-amazon.com/images/I/81BcWOGUl1L._SX480_.jpg");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Scripts {
+    @Scripts.Render("~/Scripts/main.js");
+}
+
+
+<h2>Products</h2>
+<div class="container">
+    <div class="row">
+        @foreach (var product in Model)
+        {
+            <div class="col-12 col-md-6 col-lg-4 ">
+                <div class="card mt-5">
+                    @if (product.Photos.Count != 0)
+                    {
+                        <div class="card-img h-395" style="background-image: url(/Content/Images/@product.Photos.FirstOrDefault().PhotoUrl);">
+                            @*<img class="img-fluid" src=@Url.Content("~/Content/Images/" + @product.Photos.FirstOrDefault().PhotoUrl) alt="Product name">*@
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="card-img h-395">
+                             Image not found
+                        </div>
+                    }
+                    <div class="card-body">
+                        <h5 class="card-title">@Html.DisplayFor(m => product.ProductName)</h5>
+                        @if (product.ProductLastPrice == 0)
+                        {
+                            <p class="card-text">Out of stock</p>
+                        }
+                        else
+                        {
+                            <p class="card-text">$@Html.DisplayFor(m => product.ProductLastPrice)</p>
+                        }
+
+                    </div>
+                    <div class="card-footer text-center"> @Html.ActionLink("Show details", "SingleProduct", "Shop", new {id = @Html.DisplayFor(m => product.ProductId)}, new {@class = "btn btn-primary"})</div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

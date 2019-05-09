@@ -1,0 +1,55 @@
+﻿@model ShopParser.Models.StoreProducts.Product
+
+@{
+    ViewBag.Title = "SingleProduct";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Scripts {
+    @Scripts.Render("~/Scripts/main.js");
+}
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            @Html.ActionLink("Go back", "Index", "Shop")
+        </div>
+    </div>
+    <div class="row">        
+        <div class="col-12 col-md-6">
+            <img class="img-fluid" id="main-img" src="">
+            <div class="row" id="prod-gallery">
+                @foreach (var img in ViewBag.Images)
+                {
+                    <div class="col-3">
+                        <img class="img-fluid" src=@Url.Content("~/Content/Images/" + img.PhotoUrl)>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="col-12 col-md-6 ">
+            <h1>@Html.DisplayFor(model => model.ProductName)</h1>
+
+            @if (Model.ProductLastPrice == 0)
+            {
+                <p>Out of stock</p>
+            }
+            else
+            {
+                <p>$@Html.DisplayFor(model => model.ProductLastPrice)</p>
+            }
+
+            <p>Description:</p>
+            <ul>@Html.Raw(@Model.ProductDecription)</ul>
+            <p>Price changes:</p>
+            <ul>
+                @foreach (var h in ViewBag.History)
+                {
+                    <li>@h.HistoryDate -$@h.ProductPrice</li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
